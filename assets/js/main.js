@@ -92,7 +92,10 @@
       return;
     }
 
-    var progress = Math.min(1, Math.max(0, -rect.top / travel));
+    // 末尾留一屏作为“光完全释放”的停留，避免光刚充满画面就被下一段顶走
+    var hold = window.innerHeight;
+    var animated = Math.max(1, travel - hold);
+    var progress = Math.min(1, Math.max(0, -rect.top / animated));
     dawn.style.setProperty("--p", progress.toFixed(4));
 
     var phase = 0;
@@ -119,6 +122,114 @@
   window.addEventListener("resize", onScroll);
   syncHeader();
   updateDawn();
+
+  /* ========== 图库灯箱 ========== */
+  var galleryItems = Array.prototype.slice.call(
+    document.querySelectorAll(".xg-gallery__item")
+  );
+
+  if (galleryItems.length) {
+    var galleryData = galleryItems.map(function (item) {
+      var img = item.querySelector("img");
+      return {
+        src: img ? img.getAttribute("src") : "",
+        alt: img ? img.getAttribute("alt") : "",
+        title: item.querySelector(".xg-gallery__item-title").textContent,
+        desc: item.querySelector(".xg-gallery__desc").textContent
+      };
+    });
+
+    var lightbox = document.createElement("div");
+    lightbox.className = "xg-lightbox";
+    lightbox.id = "xg-lightbox";
+    lightbox.setAttribute("role", "dialog");
+    lightbox.setAttribute("aria-modal", "true");
+    lightbox.setAttribute("aria-label", "图库大图浏览");
+    lightbox.hidden = true;
+    lightbox.innerHTML =
+      '<button class="xg-lightbox__close" type="button" aria-label="关闭大图">&times;</button>' +
+      '<button class="xg-lightbox__nav xg-lightbox__nav--prev" type="button" aria-label="上一张">&lsaquo;</button>' +
+      '<figure class="xg-lightbox__figure">' +
+      '<img class="xg-lightbox__img" alt="" />' +
+      '<figcaption class="xg-lightbox__caption">' +
+      '<span class="xg-lightbox__count"></span>' +
+      '<span class="xg-lightbox__title"></span>' +
+      '<span class="xg-lightbox__desc"></span>' +
+      "</figcaption>" +
+      "</figure>" +
+      '<button class="xg-lightbox__nav xg-lightbox__nav--next" type="button" aria-label="下一张">&rsaquo;</button>';
+    document.body.appendChild(lightbox);
+
+    var lightboxImg = lightbox.querySelector(".xg-lightbox__img");
+    var lightboxCount = lightbox.querySelector(".xg-lightbox__count");
+    var lightboxTitle = lightbox.querySelector(".xg-lightbox__title");
+    var lightboxDesc = lightbox.querySelector(".xg-lightbox__desc");
+    var closeBtn = lightbox.querySelector(".xg-lightbox__close");
+    var prevBtn = lightbox.querySelector(".xg-lightbox__nav--prev");
+    var nextBtn = lightbox.querySelector(".xg-lightbox__nav--next");
+    var current = 0;
+    var lastTrigger = null;
+
+    function pad(num) {
+      return num < 10 ? "0" + num : String(num);
+    }
+
+    function renderLightbox() {
+      var data = galleryData[current];
+      lightboxImg.src = data.src;
+      lightboxImg.alt = data.alt;
+      lightboxTitle.textContent = data.title;
+      lightboxDesc.textContent = data.desc;
+      lightboxCount.textContent =
+        pad(current + 1) + " / " + pad(galleryData.length);
+    }
+
+    function openLightbox(index, trigger) {
+      current = index;
+      lastTrigger = trigger || null;
+      renderLightbox();
+      lightbox.hidden = false;
+      document.body.classList.add("xg-lightbox-open");
+      closeBtn.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      document.body.classList.remove("xg-lightbox-open");
+      if (lastTrigger) lastTrigger.focus();
+    }
+
+    function stepLightbox(offset) {
+      current =
+        (current + offset + galleryData.length) % galleryData.length;
+      renderLightbox();
+    }
+
+    galleryItems.forEach(function (item, index) {
+      item.addEventListener("click", function () {
+        openLightbox(index, item);
+      });
+    });
+
+    closeBtn.addEventListener("click", closeLightbox);
+    prevBtn.addEventListener("click", function () {
+      stepLightbox(-1);
+    });
+    nextBtn.addEventListener("click", function () {
+      stepLightbox(1);
+    });
+
+    lightbox.addEventListener("click", function (event) {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (lightbox.hidden) return;
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") stepLightbox(-1);
+      if (event.key === "ArrowRight") stepLightbox(1);
+    });
+  }
 
   /* ========== 内容入场 ========== */
   var revealItems = Array.prototype.slice.call(

@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 620" role="img" aria-labelledby="xgPortraitTitle xgPortraitDesc">
+  <title id="xgPortraitTitle">龙哥 · 循光践道主理人</title>
+  <desc id="xgPortraitDesc">单线稿人物肖像：短发、浓眉，身穿黑色金线龙纹立领外套，侧身而立。</desc>
+
+  <defs>
+    <clipPath id="xgBodyClip">
+      <path d="M 34 620 C 46 506 90 436 158 390 L 322 390 C 390 436 434 506 446 620 Z" />
+    </clipPath>
+  </defs>
+
+  <!-- 纸面 -->
+  <rect width="480" height="620" fill="#fbf7ee" />
+
+  <!-- 背景装饰：光晕与细线 -->
+  <circle cx="242" cy="240" r="170" fill="none" stroke="#c9a063" stroke-opacity="0.55" stroke-width="1.2" />
+  <circle cx="242" cy="240" r="181" fill="none" stroke="#17232d" stroke-opacity="0.1" stroke-width="1" />
+  <path d="M 40 92 L 100 92 M 380 92 L 440 92" stroke="#17232d" stroke-opacity="0.18" stroke-width="1" />
+  <circle cx="70" cy="92" r="2" fill="#c9a063" />
+  <circle cx="410" cy="92" r="2" fill="#c9a063" />
+
+  <!-- 肩与黑色立领外套 -->
+  <path d="M 34 620 C 46 506 90 436 158 390 L 322 390 C 390 436 434 506 446 620 Z" fill="#17232d" />
+
+  <g clip-path="url(#xgBodyClip)">
+    <!-- 金线龙纹团花：左 -->
+    <g>
+      <circle cx="108" cy="556" r="47" fill="#c9a063" />
+      <circle cx="108" cy="556" r="51" fill="none" stroke="#e8c995" stroke-opacity="0.55" stroke-width="1.2" stroke-dasharray="2 5" />
+      <circle cx="108" cy="556" r="37" fill="none" stroke="#17232d" stroke-opacity="0.45" stroke-width="1.4" />
+      <path d="M 79 570 C 85 545 114 533 134 547 C 151 559 142 581 124 579 C 111 578 107 563 118 558"
+            fill="none" stroke="#17232d" stroke-opacity="0.72" stroke-width="2.4" stroke-linecap="round" />
+      <path d="M 134 545 C 139 539 146 539 150 544" fill="none" stroke="#17232d" stroke-opacity="0.6" stroke-width="1.9" stroke-linecap="round" />
+      <path d="M 93 586 C 103 592 114 592 122 585" fill="none" stroke="#17232d" stroke-opacity="0.45" stroke-width="1.7" stroke-linecap="round" />
+      <path d="M 101 539 C 109 535 119 537 124 544" fill="none" stroke="#17232d" stroke-opacity="0.4" stroke-width="1.7" stroke-linecap="round" />
+    </g>
+    <!-- 金线龙纹团花：右 -->
+    <g>
+      <circle cx="374" cy="512" r="43" fill="#c9a063" />
+      <circle cx="374" cy="512" r="47" fill="none" stroke="#e8c995" stroke-opacity="0.55" stroke-width="1.2" stroke-dasharray="2 5" />
+      <circle cx="374" cy="512" r="33" fill="none" stroke="#17232d" stroke-opacity="0.45" stroke-width="1.4" />
+      <path d="M 397 526 C 391 502 364 492 348 504 C 333 515 341 535 359 533 C 372 532 376 518 365 513"
+            fill="none" stroke="#17232d" stroke-opacity="0.72" stroke-width="2.4" stroke-linecap="round" />
+      <path d="M 346 502 C 341 497 335 497 332 502" fill="none" stroke="#17232d" stroke-opacity="0.6" stroke-width="1.9" stroke-linecap="round" />
+      <path d="M 383 540 C 373 546 363 546 355 539" fill="none" stroke="#17232d" stroke-opacity="0.45" stroke-width="1.7" stroke-linecap="round" />
+      <path d="M 379 496 C 371 492 361 494 356 501" fill="none" stroke="#17232d" stroke-opacity="0.4" stroke-width="1.7" stroke-linecap="round" />
+    </g>
+
+    <!-- 衣身金线与褶皱 -->
+    <path d="M 240 398 L 240 620" stroke="#c9a063" stroke-opacity="0.3" stroke-width="1.2" />
+    <path d="M 54 596 C 90 566 124 552 160 546" fill="none" stroke="#e8c995" stroke-opacity="0.2" stroke-width="1.2" />
+    <path d="M 426 596 C 390 566 356 552 320 546" fill="none" stroke="#e8c995" stroke-opacity="0.2" stroke-width="1.2" />
+    <path d="M 172 406 C 186 444 192 490 190 536" fill="none" stroke="#e8c995" stroke-opacity="0.14" stroke-width="1.2" />
+    <path d="M 308 406 C 294 444 288 490 290 536" fill="none" stroke="#e8c995" stroke-opacity="0.14" stroke-width="1.2" />
+  </g>
+
+  <!-- 脖颈 -->
+  <path d="M 216 304 C 216 334 212 352 210 384 L 286 384 C 280 352 276 334 275 298 Z" fill="#f3ebdc" />
+  <path d="M 218 306 C 232 328 252 336 272 330 L 275 298 L 216 304 Z" fill="#17232d" fill-opacity="0.07" />
+  <path d="M 275 300 C 277 334 281 356 286 384" fill="none" stroke="#17232d" stroke-opacity="0.45" stroke-width="2" />
+  <path d="M 216 306 C 215 334 212 356 210 382" fill="none" stroke="#17232d" stroke-opacity="0.22" stroke-width="1.6" />
+
+  <!-- 立领 -->
+  <path d="M 198 356 C 212 348 268 348 282 356 L 292 398 C 272 404 208 404 188 398 Z"
+        fill="#0d1820" stroke="#17232d" stroke-width="1.6" stroke-linejoin="round" />
+  <path d="M 203 362 C 216 355 264 355 277 362" fill="none" stroke="#c9a063" stroke-width="1.6" />
+  <path d="M 192 394 C 210 399 270 399 288 394" fill="none" stroke="#c9a063" stroke-opacity="0.7" stroke-width="1.2" />
+
+  <!-- 头部轮廓 -->
+  <path d="M 246 98
+           C 214 100 195 126 193 158
+           C 192 174 189 184 188 196
+           C 187 204 187 211 188 216
+           C 177 222 171 232 171 241
+           C 171 248 179 251 188 252
+           C 184 256 182 260 182 264
+           C 180 269 181 273 185 276
+           C 184 281 184 286 189 290
+           C 188 296 192 301 200 303
+           C 209 312 224 316 240 315
+           C 256 315 269 309 278 300
+           C 288 290 296 276 302 258
+           C 308 240 312 218 313 196
+           C 314 170 307 140 289 118
+           C 277 106 262 98 246 98 Z"
+        fill="#fbf7ee" stroke="#17232d" stroke-width="2.4" stroke-linejoin="round" />
+
+  <!-- 头发：短发，两侧推短，顶部向后梳 -->
+  <path d="M 192 152
+           C 195 120 216 100 250 98
+           C 284 96 306 118 306 152
+           C 309 176 314 198 312 218
+           C 310 232 305 242 298 250
+           L 289 244
+           C 283 226 279 210 272 200
+           C 264 189 253 185 240 183
+           C 225 181 207 174 199 165
+           C 195 160 193 156 192 152 Z"
+        fill="#17232d" />
+  <path d="M 213 130 C 231 114 257 111 279 123" fill="none" stroke="#fbf7ee" stroke-opacity="0.24" stroke-width="1.6" stroke-linecap="round" />
+  <path d="M 201 150 C 206 132 220 117 240 112" fill="none" stroke="#fbf7ee" stroke-opacity="0.18" stroke-width="1.4" stroke-linecap="round" />
+  <path d="M 300 176 C 303 194 302 210 298 224" fill="none" stroke="#fbf7ee" stroke-opacity="0.15" stroke-width="1.4" stroke-linecap="round" />
+  <path d="M 198 170 C 211 179 220 183 235 185 C 250 187 260 192 266 202"
+        fill="none" stroke="#fbf7ee" stroke-opacity="0.28" stroke-width="1.3" stroke-linecap="round" />
+
+  <!-- 耳 -->
+  <path d="M 270 216 C 284 211 296 222 295 239 C 294 256 283 267 271 266 C 265 265 263 259 268 254"
+        fill="#fbf7ee" stroke="#17232d" stroke-width="2.2" stroke-linejoin="round" />
+  <path d="M 278 227 C 285 227 287 236 282 242 C 279 247 272 246 272 240"
+        fill="none" stroke="#17232d" stroke-opacity="0.55" stroke-width="1.6" stroke-linecap="round" />
+  <path d="M 270 250 C 273 253 277 254 280 252" fill="none" stroke="#17232d" stroke-opacity="0.3" stroke-width="1.4" stroke-linecap="round" />
+
+  <!-- 眉、眼、鼻、口 -->
+  <path d="M 188 196 C 195 190 207 189 215 193" fill="none" stroke="#17232d" stroke-width="5.6" stroke-linecap="round" />
+  <path d="M 193 210 C 198 205 206 204 212 207" fill="none" stroke="#17232d" stroke-width="2.4" stroke-linecap="round" />
+  <circle cx="202" cy="209" r="3.2" fill="#17232d" />
+  <path d="M 195 215 C 200 217 206 217 210 215" fill="none" stroke="#17232d" stroke-opacity="0.26" stroke-width="1.3" stroke-linecap="round" />
+  <path d="M 187 250 C 190 254 195 254 198 251" fill="none" stroke="#17232d" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M 181 270 C 187 267 195 267 201 270" fill="none" stroke="#17232d" stroke-width="2.2" stroke-linecap="round" />
+  <path d="M 183 276 C 189 279 195 279 200 275" fill="none" stroke="#17232d" stroke-opacity="0.35" stroke-width="1.4" stroke-linecap="round" />
+  <path d="M 189 287 C 195 290 202 290 206 287" fill="none" stroke="#17232d" stroke-opacity="0.42" stroke-width="1.5" stroke-linecap="round" />
+
+  <!-- 面部写意笔触 -->
+  <path d="M 238 190 C 248 186 259 187 267 192" fill="none" stroke="#17232d" stroke-opacity="0.1" stroke-width="1.4" stroke-linecap="round" />
+
+  <!-- 一字盘扣 -->
+  <g stroke="#c9a063" stroke-width="2.2" stroke-linecap="round">
+    <path d="M 230 428 L 250 428" />
+    <path d="M 230 472 L 250 472" />
+    <path d="M 230 516 L 250 516" />
+  </g>
+  <g fill="#c9a063">
+    <circle cx="240" cy="428" r="2.2" />
+    <circle cx="240" cy="472" r="2.2" />
+    <circle cx="240" cy="516" r="2.2" />
+  </g>
+</svg>
