@@ -1,0 +1,733 @@
+/* 循光践道 · 新官网设计 Demo「追光见道」
+ * 独立演示页：一束光随滚动从顶部落到底部，途经之处文字被点亮，最后落地见「道」
+ * 原生 CSS，零依赖；类名统一 xg- 前缀
+ */
+
+/* ========== 变量 ========== */
+:root {
+  --xg-night: #04080c;
+  --xg-night-soft: #0a141c;
+  --xg-paper: #f6efe2;
+  --xg-gold: #e8c995;
+  --xg-gold-deep: #c9a063;
+  --xg-pad: clamp(20px, 6vw, 80px);
+  --xg-serif: "Songti SC", "STSong", "Noto Serif SC", "Source Han Serif SC",
+    "Microsoft YaHei", serif;
+  --xg-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Helvetica Neue", Arial, sans-serif;
+  --xg-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ========== 基础 ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body.xg-dl {
+  margin: 0;
+  background: var(--xg-night);
+  color: var(--xg-paper);
+  font-family: var(--xg-sans);
+  font-size: 16px;
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.xg-dl a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(232, 201, 149, 0.25);
+}
+
+.xg-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  padding: 12px 18px;
+  background: var(--xg-paper);
+  color: #17232d;
+}
+
+.xg-skip:focus {
+  left: 12px;
+  top: 12px;
+}
+
+/* ========== 背景氛围 ========== */
+.xg-dl-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 80% 50% at 50% -12%,
+      rgba(232, 201, 149, 0.12),
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 50% 112%,
+      rgba(201, 160, 99, 0.09),
+      transparent 62%
+    ),
+    var(--xg-night);
+}
+
+.xg-dl-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 42%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* ========== 一束光 ========== */
+.xg-dl-beam {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 60;
+  pointer-events: none;
+  transform: translate3d(var(--x, 50vw), var(--y, 14vh), 0);
+  will-change: transform;
+}
+
+/* 走过的光迹：从视口顶部一直连到光点 */
+.xg-dl-beam__trail {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: var(--y, 14vh);
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    rgba(232, 201, 149, 0),
+    rgba(232, 201, 149, 0.14) 55%,
+    rgba(255, 244, 220, 0.4)
+  );
+  opacity: 0.6;
+}
+
+/* 彗尾：光点上方的拖尾 */
+.xg-dl-beam__tail {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 2px;
+  height: var(--tail, 22vh);
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: linear-gradient(
+    to top,
+    rgba(255, 246, 228, 0.95),
+    rgba(232, 201, 149, 0.4) 34%,
+    rgba(232, 201, 149, 0) 100%
+  );
+  filter: blur(0.6px);
+  opacity: calc(0.3 + 0.7 * var(--power, 1));
+  transition: opacity 0.5s var(--xg-ease);
+}
+
+.xg-dl-beam__tail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 16px;
+  height: 100%;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to top,
+    rgba(255, 240, 210, 0.45),
+    rgba(232, 201, 149, 0.06) 45%,
+    transparent 100%
+  );
+  filter: blur(10px);
+}
+
+/* 光晕 */
+.xg-dl-beam__halo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 460px;
+  height: 720px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 246, 228, 0.2),
+    rgba(232, 201, 149, 0.07) 38%,
+    transparent 70%
+  );
+  opacity: calc(0.2 + 0.8 * var(--power, 1));
+  filter: blur(8px);
+}
+
+/* 光点 */
+.xg-dl-beam__head {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #ffffff 0%,
+    #fff8e8 38%,
+    rgba(255, 240, 210, 0.9) 66%,
+    rgba(255, 235, 200, 0) 100%
+  );
+  box-shadow:
+    0 0 18px 6px rgba(255, 244, 222, calc(0.5 * var(--power, 1))),
+    0 0 70px 22px rgba(232, 201, 149, calc(0.3 * var(--power, 1)));
+  opacity: calc(0.4 + 0.6 * var(--power, 1));
+  transition: opacity 0.4s var(--xg-ease), transform 0.6s var(--xg-ease);
+}
+
+body.is-landed .xg-dl-beam__head {
+  transform: scale(1.8);
+}
+
+body.is-landed .xg-dl-beam__tail {
+  opacity: 0;
+}
+
+/* ========== 落地爆闪 ========== */
+.xg-dl-burst {
+  position: fixed;
+  left: 50%;
+  top: var(--land-y, 70vh);
+  width: 0;
+  height: 0;
+  z-index: 55;
+  pointer-events: none;
+}
+
+.xg-dl-burst__flash {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 140vmax;
+  height: 140vmax;
+  transform: translate(-50%, -50%) scale(0.35);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 252, 244, 0.85),
+    rgba(255, 240, 210, 0.3) 20%,
+    rgba(232, 201, 149, 0.08) 44%,
+    transparent 64%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 1.6s var(--xg-ease);
+}
+
+body.is-landed .xg-dl-burst__flash {
+  opacity: 0.5;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.xg-dl-burst__ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24vmin;
+  height: 24vmin;
+  transform: translate(-50%, -50%) scale(0.1);
+  border: 1px solid rgba(255, 244, 220, 0.65);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+body.is-landed .xg-dl-burst__ring {
+  animation: xg-dl-ring 1.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes xg-dl-ring {
+  0% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(5);
+  }
+}
+
+/* ========== 微尘 ========== */
+.xg-dl-dust {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.xg-dl-dust__dot {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #ffeccb;
+  box-shadow: 0 0 6px 1px rgba(255, 236, 203, 0.55);
+  opacity: 0.1;
+  animation: xg-dl-drift 6s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@keyframes xg-dl-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(6px, -10px, 0);
+  }
+}
+
+/* ========== 页头 ========== */
+.xg-dl-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px var(--xg-pad);
+  color: #f2e9d8;
+  background: linear-gradient(
+    to bottom,
+    rgba(4, 8, 12, 0.72),
+    rgba(4, 8, 12, 0)
+  );
+}
+
+.xg-dl-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--xg-serif);
+  font-size: 17px;
+  letter-spacing: 0.2em;
+}
+
+.xg-dl-brand img {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.xg-dl-back {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: rgba(242, 233, 216, 0.62);
+  padding: 8px 16px;
+  border: 1px solid rgba(232, 201, 149, 0.22);
+  border-radius: 999px;
+  transition: color 0.3s var(--xg-ease), border-color 0.3s var(--xg-ease);
+}
+
+.xg-dl-back:hover {
+  color: #fff6e3;
+  border-color: rgba(232, 201, 149, 0.55);
+}
+
+/* ========== 首屏 ========== */
+.xg-dl-hero {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 14vh var(--xg-pad);
+  text-align: center;
+}
+
+.xg-dl-hero__kicker {
+  margin: 0 0 30px;
+  font-size: 11px;
+  letter-spacing: 0.42em;
+  color: rgba(232, 201, 149, 0.68);
+}
+
+.xg-dl-hero h1 {
+  margin: 0;
+  font-family: var(--xg-serif);
+  font-weight: 400;
+  font-size: clamp(40px, 7.2vw, 96px);
+  line-height: 1.32;
+  letter-spacing: 0.08em;
+  color: #fbf4e6;
+  text-shadow: 0 0 70px rgba(232, 201, 149, 0.2);
+}
+
+.xg-dl-hero__sub {
+  margin: 34px 0 0;
+  font-size: clamp(14px, 1.5vw, 17px);
+  letter-spacing: 0.1em;
+  line-height: 2.1;
+  color: rgba(246, 239, 226, 0.62);
+}
+
+.xg-dl-hero__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 4vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: rgba(232, 201, 149, 0.55);
+}
+
+.xg-dl-hero__hint i {
+  display: block;
+  width: 1px;
+  height: 54px;
+  background: linear-gradient(
+    to bottom,
+    rgba(232, 201, 149, 0.75),
+    transparent
+  );
+  animation: xg-dl-hint 2.6s var(--xg-ease) infinite;
+  transform-origin: top center;
+}
+
+@keyframes xg-dl-hint {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scaleY(0.55);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* ========== 通用段落 ========== */
+.xg-dl-section {
+  position: relative;
+  z-index: 10;
+  padding: clamp(110px, 20vh, 220px) var(--xg-pad);
+}
+
+.xg-dl-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.xg-dl-center {
+  text-align: center;
+}
+
+.xg-dl-kicker {
+  margin: 0 0 28px;
+  font-size: 11px;
+  letter-spacing: 0.38em;
+  color: rgba(232, 201, 149, 0.62);
+}
+
+.xg-dl-h2 {
+  margin: 0 0 38px;
+  font-family: var(--xg-serif);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+}
+
+.xg-dl-text {
+  margin: 0 auto;
+  max-width: 720px;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 2.2;
+  letter-spacing: 0.06em;
+  color: #f2e9d8;
+}
+
+.xg-dl-text + .xg-dl-text {
+  margin-top: 26px;
+}
+
+.xg-dl-text--soft {
+  color: rgba(242, 233, 216, 0.78);
+}
+
+/* 被光点亮的文字：--lit 由 JS 逐帧写入 */
+.xg-dl-lit {
+  --lit: 0;
+  opacity: calc(0.2 + 0.8 * var(--lit));
+  text-shadow: 0 0 calc(28px * var(--lit))
+    rgba(255, 240, 210, calc(0.5 * var(--lit)));
+}
+
+/* ========== 五大赛道 ========== */
+.xg-dl-tracks {
+  margin: 46px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.xg-dl-track {
+  display: grid;
+  grid-template-columns: 72px minmax(120px, 200px) 1fr;
+  gap: 26px;
+  align-items: baseline;
+  padding: 30px 0;
+  border-top: 1px solid rgba(232, 201, 149, 0.14);
+}
+
+.xg-dl-track:last-child {
+  border-bottom: 1px solid rgba(232, 201, 149, 0.14);
+}
+
+.xg-dl-track__num {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--xg-gold-deep);
+}
+
+.xg-dl-track__name {
+  margin: 0;
+  font-family: var(--xg-serif);
+  font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 34px);
+  letter-spacing: 0.16em;
+}
+
+.xg-dl-track__line {
+  margin: 0;
+  font-size: clamp(14px, 1.4vw, 16px);
+  letter-spacing: 0.05em;
+  color: rgba(246, 239, 226, 0.8);
+}
+
+/* ========== 引语 ========== */
+.xg-dl-quote {
+  margin: 0 0 42px;
+  font-family: var(--xg-serif);
+  font-weight: 400;
+  font-size: clamp(30px, 4.6vw, 60px);
+  line-height: 1.7;
+  letter-spacing: 0.08em;
+  color: #fdf6e8;
+}
+
+/* ========== 见道 ========== */
+.xg-dl-final {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 100vh;
+  padding: 16vh var(--xg-pad) 9vh;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* 地面微光：光落地的那一层 */
+.xg-dl-final::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -12vh;
+  width: min(1400px, 150vw);
+  height: 70vh;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    rgba(232, 201, 149, 0.18),
+    rgba(201, 160, 99, 0.05) 42%,
+    transparent 68%
+  );
+  opacity: 0.35;
+  pointer-events: none;
+  transition: opacity 1s var(--xg-ease);
+}
+
+body.is-landed .xg-dl-final::after {
+  opacity: 1;
+}
+
+.xg-dl-dao {
+  position: relative;
+  margin: 1vh 0 3vh;
+  font-family: var(--xg-serif);
+  font-weight: 400;
+  font-size: clamp(120px, 24vw, 300px);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  color: #fffaef;
+}
+
+body.is-landed .xg-dl-dao {
+  animation: xg-dl-dao-in 1.2s var(--xg-ease) both;
+}
+
+@keyframes xg-dl-dao-in {
+  0% {
+    transform: scale(1.16);
+    filter: brightness(2.4) drop-shadow(0 0 60px rgba(255, 245, 225, 0.95));
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1) drop-shadow(0 0 26px rgba(255, 240, 210, 0.5));
+  }
+}
+
+.xg-dl-final__line {
+  margin: 0;
+  font-size: clamp(15px, 1.6vw, 19px);
+  letter-spacing: 0.1em;
+  color: #f6efe2;
+}
+
+.xg-dl-final__note {
+  margin: 14px 0 0;
+  font-family: var(--xg-serif);
+  font-size: clamp(13px, 1.3vw, 15px);
+  letter-spacing: 0.3em;
+  color: rgba(232, 201, 149, 0.62);
+}
+
+.xg-dl-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 38px;
+  opacity: 0.5;
+  transition: opacity 0.9s var(--xg-ease);
+}
+
+body.is-landed .xg-dl-cta {
+  opacity: 1;
+}
+
+.xg-dl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 30px;
+  border: 1px solid rgba(232, 201, 149, 0.32);
+  border-radius: 999px;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: #f2e9d8;
+  transition: border-color 0.35s var(--xg-ease), color 0.35s var(--xg-ease),
+    background 0.35s var(--xg-ease), transform 0.35s var(--xg-ease);
+}
+
+.xg-dl-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232, 201, 149, 0.7);
+}
+
+.xg-dl-btn--solid {
+  color: #1a1208;
+  border-color: transparent;
+  background: linear-gradient(135deg, #f3dcb4, var(--xg-gold-deep));
+}
+
+.xg-dl-foot {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  color: rgba(246, 239, 226, 0.3);
+}
+
+/* ========== 小屏 ========== */
+@media (max-width: 720px) {
+  .xg-dl-header {
+    padding: 14px var(--xg-pad);
+  }
+
+  .xg-dl-brand {
+    font-size: 15px;
+    letter-spacing: 0.14em;
+  }
+
+  .xg-dl-brand img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .xg-dl-back {
+    padding: 7px 13px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .xg-dl-track {
+    grid-template-columns: 44px 1fr;
+    row-gap: 8px;
+    gap: 16px;
+    padding: 24px 0;
+  }
+
+  .xg-dl-track__line {
+    grid-column: 2;
+  }
+
+  .xg-dl-dao {
+    font-size: clamp(110px, 40vw, 190px);
+  }
+
+  .xg-dl-hero__hint {
+    letter-spacing: 0.2em;
+  }
+}
+
+/* ========== 降低动效偏好 ========== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .xg-dl-hero__hint i,
+  .xg-dl-dust__dot {
+    animation: none;
+  }
+
+  .xg-dl-lit {
+    opacity: 1;
+    text-shadow: none;
+  }
+}
