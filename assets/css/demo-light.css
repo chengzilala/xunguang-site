@@ -109,6 +109,16 @@ body.xg-dl a {
   pointer-events: none;
   transform: translate3d(var(--x, 50vw), var(--y, 14vh), 0);
   will-change: transform;
+  animation: xg-dl-beam-in 1.6s var(--xg-ease) 0.2s both;
+}
+
+@keyframes xg-dl-beam-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* 走过的光迹：从视口顶部一直连到光点 */
@@ -135,7 +145,8 @@ body.xg-dl a {
   bottom: 0;
   width: 2px;
   height: var(--tail, 22vh);
-  transform: translateX(-50%);
+  transform: translateX(-50%) rotate(var(--tilt, 0deg));
+  transform-origin: 50% 100%;
   border-radius: 2px;
   background: linear-gradient(
     to top,
@@ -153,16 +164,34 @@ body.xg-dl a {
   position: absolute;
   left: 50%;
   bottom: 0;
-  width: 16px;
+  width: 18px;
   height: 100%;
   transform: translateX(-50%);
   background: linear-gradient(
     to top,
-    rgba(255, 240, 210, 0.45),
-    rgba(232, 201, 149, 0.06) 45%,
+    rgba(255, 240, 210, 0.5),
+    rgba(232, 201, 149, 0.07) 42%,
     transparent 100%
   );
-  filter: blur(10px);
+  filter: blur(12px);
+}
+
+/* 拖尾靠近头部的一小段实心亮线，让光更有"重量" */
+.xg-dl-beam__tail::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 4px;
+  height: 22%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 250, 0.95),
+    rgba(255, 240, 210, 0)
+  );
+  filter: blur(1.5px);
 }
 
 /* 光晕 */
@@ -186,23 +215,115 @@ body.xg-dl a {
 /* 光点 */
 .xg-dl-beam__head {
   position: absolute;
-  left: -5px;
-  top: -5px;
-  width: 10px;
-  height: 10px;
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
     #ffffff 0%,
-    #fff8e8 38%,
-    rgba(255, 240, 210, 0.9) 66%,
+    #fff8e8 36%,
+    rgba(255, 240, 210, 0.88) 64%,
     rgba(255, 235, 200, 0) 100%
   );
   box-shadow:
-    0 0 18px 6px rgba(255, 244, 222, calc(0.5 * var(--power, 1))),
-    0 0 70px 22px rgba(232, 201, 149, calc(0.3 * var(--power, 1)));
+    0 0 20px 7px rgba(255, 244, 222, calc(0.5 * var(--power, 1))),
+    0 0 80px 26px rgba(232, 201, 149, calc(0.3 * var(--power, 1)));
   opacity: calc(0.4 + 0.6 * var(--power, 1));
   transition: opacity 0.4s var(--xg-ease), transform 0.6s var(--xg-ease);
+}
+
+/* 头部呼吸般的微闪 */
+.xg-dl-beam__head::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 248, 232, 0.55),
+    transparent 62%
+  );
+  animation: xg-dl-flicker 3.4s ease-in-out infinite;
+}
+
+@keyframes xg-dl-flicker {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+  45% {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+}
+
+/* 最中心的实心白点 */
+.xg-dl-beam__core {
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px 4px rgba(255, 255, 255, 0.9);
+}
+
+/* 沿途掉落的细小火花 */
+.xg-dl-beam__spark {
+  position: absolute;
+  left: -1px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #ffe9bd;
+  box-shadow: 0 0 8px 2px rgba(255, 233, 189, 0.65);
+  opacity: 0;
+  animation: xg-dl-spark 2.8s ease-in-out infinite;
+}
+
+.xg-dl-beam__spark--a {
+  top: -76px;
+  margin-left: -12px;
+  animation-delay: 0.2s;
+}
+
+.xg-dl-beam__spark--b {
+  top: -132px;
+  margin-left: 10px;
+  animation-delay: 1.1s;
+  animation-duration: 3.6s;
+}
+
+.xg-dl-beam__spark--c {
+  top: -188px;
+  margin-left: -4px;
+  animation-delay: 2s;
+  animation-duration: 4.2s;
+}
+
+@keyframes xg-dl-spark {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5) translateY(0);
+  }
+  40% {
+    opacity: 0.9;
+    transform: scale(1) translateY(-6px);
+  }
+  70% {
+    opacity: 0.25;
+    transform: scale(0.8) translateY(-14px);
+  }
+}
+
+body.is-landed .xg-dl-beam__spark {
+  opacity: 0;
+  animation: none;
 }
 
 body.is-landed .xg-dl-beam__head {
@@ -262,6 +383,63 @@ body.is-landed .xg-dl-burst__flash {
 
 body.is-landed .xg-dl-burst__ring {
   animation: xg-dl-ring 1.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+body.is-landed .xg-dl-burst__ring--late {
+  animation: xg-dl-ring 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  border-color: rgba(232, 201, 149, 0.4);
+}
+
+/* 落地瞬间的全屏泛白，一下就好 */
+.xg-dl-burst__veil {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% var(--land-y, 70vh),
+    rgba(255, 249, 238, 0.5),
+    rgba(255, 240, 210, 0.16) 34%,
+    transparent 68%
+  );
+  opacity: 0;
+}
+
+body.is-landed .xg-dl-burst__veil {
+  animation: xg-dl-veil 1.7s ease-out both;
+}
+
+@keyframes xg-dl-veil {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ========== 阅读进度 ========== */
+.xg-dl-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 80;
+  height: 1px;
+  pointer-events: none;
+  background: rgba(232, 201, 149, 0.07);
+}
+
+.xg-dl-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(232, 201, 149, 0.35),
+    #ffe9bd
+  );
+  box-shadow: 0 0 12px rgba(255, 233, 189, 0.7);
 }
 
 @keyframes xg-dl-ring {
@@ -375,6 +553,45 @@ body.is-landed .xg-dl-burst__ring {
   color: rgba(232, 201, 149, 0.68);
 }
 
+/* 首屏入场 */
+.xg-dl-hero__kicker,
+.xg-dl-hero h1,
+.xg-dl-hero__sub {
+  animation: xg-dl-rise 1.5s var(--xg-ease) both;
+}
+
+.xg-dl-hero h1 {
+  animation-delay: 0.12s;
+}
+
+.xg-dl-hero__sub {
+  animation-delay: 0.32s;
+}
+
+.xg-dl-hero__hint {
+  animation: xg-dl-fade-in 1.2s ease 1s both;
+}
+
+@keyframes xg-dl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes xg-dl-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .xg-dl-hero h1 {
   margin: 0;
   font-family: var(--xg-serif);
@@ -457,6 +674,20 @@ body.is-landed .xg-dl-burst__ring {
   color: rgba(232, 201, 149, 0.62);
 }
 
+.xg-dl-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 1px;
+  margin-right: 14px;
+  vertical-align: middle;
+  background: linear-gradient(
+    to right,
+    rgba(232, 201, 149, 0),
+    rgba(232, 201, 149, 0.75)
+  );
+}
+
 .xg-dl-h2 {
   margin: 0 0 38px;
   font-family: var(--xg-serif);
@@ -481,6 +712,15 @@ body.is-landed .xg-dl-burst__ring {
 
 .xg-dl-text--soft {
   color: rgba(242, 233, 216, 0.78);
+}
+
+.xg-dl-lead {
+  max-width: 720px;
+  margin: 0 0 8px;
+  font-size: clamp(14px, 1.4vw, 17px);
+  line-height: 2.1;
+  letter-spacing: 0.05em;
+  color: rgba(246, 239, 226, 0.78);
 }
 
 /* 被光点亮的文字：--lit 由 JS 逐帧写入 */
@@ -530,6 +770,52 @@ body.is-landed .xg-dl-burst__ring {
   font-size: clamp(14px, 1.4vw, 16px);
   letter-spacing: 0.05em;
   color: rgba(246, 239, 226, 0.8);
+}
+
+/* ========== 同行：四种方式 ========== */
+.xg-dl-modes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 48px;
+  border-top: 1px solid rgba(232, 201, 149, 0.14);
+}
+
+.xg-dl-mode {
+  padding: 34px 30px 38px;
+  border-bottom: 1px solid rgba(232, 201, 149, 0.14);
+}
+
+.xg-dl-mode:nth-child(odd) {
+  border-right: 1px solid rgba(232, 201, 149, 0.14);
+  padding-left: 0;
+}
+
+.xg-dl-mode:nth-child(even) {
+  padding-right: 0;
+}
+
+.xg-dl-mode__num {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: var(--xg-gold-deep);
+}
+
+.xg-dl-mode__title {
+  margin: 0 0 10px;
+  font-family: var(--xg-serif);
+  font-weight: 400;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: 0.12em;
+}
+
+.xg-dl-mode__text {
+  margin: 0;
+  max-width: 380px;
+  font-size: clamp(13px, 1.3vw, 15px);
+  line-height: 1.95;
+  color: rgba(246, 239, 226, 0.72);
 }
 
 /* ========== 引语 ========== */
@@ -593,7 +879,7 @@ body.is-landed .xg-dl-final::after {
 }
 
 body.is-landed .xg-dl-dao {
-  animation: xg-dl-dao-in 1.2s var(--xg-ease) both;
+  animation: xg-dl-dao-in 1.2s var(--xg-ease) 0.12s both;
 }
 
 @keyframes xg-dl-dao-in {
@@ -628,8 +914,8 @@ body.is-landed .xg-dl-dao {
   gap: 14px;
   justify-content: center;
   margin-top: 38px;
-  opacity: 0.5;
-  transition: opacity 0.9s var(--xg-ease);
+  opacity: 0.42;
+  transition: opacity 0.9s var(--xg-ease) 0.65s;
 }
 
 body.is-landed .xg-dl-cta {
@@ -706,8 +992,30 @@ body.is-landed .xg-dl-cta {
     grid-column: 2;
   }
 
+  .xg-dl-modes {
+    grid-template-columns: 1fr;
+    margin-top: 38px;
+  }
+
+  .xg-dl-mode,
+  .xg-dl-mode:nth-child(odd),
+  .xg-dl-mode:nth-child(even) {
+    padding: 28px 0 30px;
+    border-right: 0;
+  }
+
+  .xg-dl-final {
+    padding-bottom: 12vh;
+  }
+
   .xg-dl-dao {
     font-size: clamp(110px, 40vw, 190px);
+  }
+
+  .xg-dl-foot {
+    bottom: 14px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
   }
 
   .xg-dl-hero__hint {

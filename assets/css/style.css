@@ -2584,3 +2584,398 @@ body.xg-lightbox-open {
     margin-top: 12px;
   }
 }
+
+/* ========== 寻光书单 ========== */
+.xg-books {
+  background: var(--xg-paper-deep);
+}
+
+.xg-books__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: clamp(32px, 4.5vw, 58px);
+}
+
+.xg-books__head .xg-lead {
+  max-width: 420px;
+  margin: 0;
+}
+
+.xg-books__head .xg-actions {
+  margin-top: 22px;
+}
+
+.xg-books__grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(26px, 3.4vw, 46px) clamp(12px, 1.6vw, 22px);
+}
+
+.xg-books__grid--strip {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.xg-books__grid--core {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 3.6vw, 48px);
+}
+
+.xg-book {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  outline: none;
+  transition: transform 0.5s var(--xg-ease);
+}
+
+.xg-book__cover {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 177 / 250;
+  background: var(--xg-paper);
+  box-shadow: 0 14px 30px -20px rgba(6, 17, 26, 0.62);
+  transform-origin: center bottom;
+  transition: transform 0.55s var(--xg-ease), box-shadow 0.55s var(--xg-ease);
+}
+
+.xg-book__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--xg-ease), filter 0.5s var(--xg-ease);
+}
+
+.xg-book__badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 3px 8px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: #f6eddd;
+  background: rgba(6, 17, 26, 0.72);
+  pointer-events: none;
+}
+
+.xg-book__note {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  padding: 34px 14px 14px;
+  background: linear-gradient(
+    to top,
+    rgba(6, 17, 26, 0.96) 0%,
+    rgba(6, 17, 26, 0.86) 55%,
+    rgba(6, 17, 26, 0) 100%
+  );
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.45s var(--xg-ease), transform 0.55s var(--xg-ease);
+  pointer-events: none;
+}
+
+.xg-book__note::before {
+  content: "推荐语";
+  display: block;
+  margin-bottom: 6px;
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  color: var(--xg-gold-light);
+}
+
+.xg-book__note p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.75;
+  color: rgba(245, 241, 232, 0.86);
+}
+
+.xg-book__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.xg-book__index {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--xg-muted);
+}
+
+.xg-book__title {
+  margin: 0;
+  font-family: var(--xg-serif);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--xg-ink);
+}
+
+.xg-book__author {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--xg-muted);
+}
+
+/* 无封面时的手作书封（三部曲 / 暂无封面） */
+.xg-book__cover--set {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  padding: 16px 14px;
+  background: radial-gradient(
+      circle at 24% 18%,
+      rgba(232, 201, 149, 0.34),
+      transparent 58%
+    ),
+    linear-gradient(155deg, #102735 0%, #06111a 72%);
+}
+
+.xg-book__spine {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  border: 1px solid rgba(232, 201, 149, 0.3);
+  font-family: var(--xg-serif);
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.2em;
+  color: rgba(246, 237, 221, 0.9);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+.xg-book__cover--plain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px;
+  background: linear-gradient(155deg, #f9f5eb 0%, #e9dfcc 100%);
+  text-align: center;
+}
+
+.xg-book__plain-mark {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--xg-cinnabar);
+}
+
+.xg-book__plain-title {
+  font-family: var(--xg-serif);
+  font-size: clamp(18px, 1.8vw, 24px);
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  color: var(--xg-ink);
+}
+
+.xg-book--lg .xg-book__title {
+  font-size: 20px;
+}
+
+.xg-book--lg .xg-book__author {
+  font-size: 13px;
+}
+
+.xg-book--lg .xg-book__note p {
+  font-size: 13.5px;
+}
+
+.xg-book--lg .xg-book__note {
+  padding: 42px 20px 20px;
+}
+
+.xg-books__more {
+  margin-top: clamp(48px, 6vw, 80px);
+  padding-top: clamp(32px, 4vw, 48px);
+  border-top: 1px solid var(--xg-line);
+}
+
+.xg-books__more-title {
+  margin: 0 0 8px;
+  font-family: var(--xg-serif);
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.xg-books__more-note {
+  margin: 0 0 28px;
+  font-size: 14px;
+  color: var(--xg-muted);
+}
+
+.xg-books__more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.xg-books__more-group h3 {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--xg-cinnabar);
+}
+
+.xg-books__more-group ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.xg-books__more-group li {
+  padding: 5px 12px;
+  border: 1px solid var(--xg-line);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--xg-ink-soft);
+}
+
+.xg-books__foot {
+  margin-top: clamp(36px, 5vw, 56px);
+  font-size: 13px;
+  color: var(--xg-muted);
+}
+
+@media (hover: hover) {
+  .xg-book:hover,
+  .xg-book:focus-visible {
+    z-index: 5;
+    transform: translateY(-8px);
+  }
+
+  .xg-book:hover .xg-book__cover,
+  .xg-book:focus-visible .xg-book__cover {
+    transform: scale(1.05);
+    box-shadow: 0 32px 56px -26px rgba(6, 17, 26, 0.72);
+  }
+
+  .xg-book:hover .xg-book__cover img,
+  .xg-book:focus-visible .xg-book__cover img {
+    transform: scale(1.08);
+    filter: brightness(0.94) saturate(1.02);
+  }
+
+  .xg-book:hover .xg-book__note,
+  .xg-book:focus-visible .xg-book__note {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.xg-book:focus-visible .xg-book__cover {
+  outline: 2px solid var(--xg-gold);
+  outline-offset: 5px;
+}
+
+/* 触屏：点按展开推荐语 */
+.xg-book.is-active .xg-book__note {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.xg-book.is-active .xg-book__cover {
+  box-shadow: 0 26px 46px -24px rgba(6, 17, 26, 0.7);
+}
+
+@media (max-width: 1080px) {
+  .xg-books__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .xg-books__grid--strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .xg-books__grid--core {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .xg-books__head {
+    display: block;
+  }
+
+  .xg-books__head .xg-lead {
+    margin-top: 16px;
+  }
+
+  .xg-books__more-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .xg-books__grid,
+  .xg-books__grid--strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 26px 12px;
+  }
+
+  .xg-books__grid--core {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .xg-book__title {
+    font-size: 13px;
+  }
+
+  .xg-book__author {
+    font-size: 10.5px;
+  }
+
+  .xg-book__note {
+    padding: 26px 10px 10px;
+  }
+
+  .xg-book__note p {
+    font-size: 11px;
+    line-height: 1.65;
+  }
+
+  .xg-book__note::before {
+    font-size: 8px;
+  }
+
+  .xg-book--lg .xg-book__title {
+    font-size: 14px;
+  }
+
+  .xg-book--lg .xg-book__author {
+    font-size: 11px;
+  }
+
+  .xg-book--lg .xg-book__note p {
+    font-size: 11px;
+  }
+
+  .xg-books__more-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .xg-books__grid,
+  .xg-books__grid--strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

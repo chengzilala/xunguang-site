@@ -231,6 +231,40 @@
     });
   }
 
+  /* ========== 书单：触屏点按展开推荐语 ========== */
+  var bookCards = Array.prototype.slice.call(document.querySelectorAll(".xg-book"));
+  var noHover = window.matchMedia("(hover: none)").matches;
+
+  function toggleBook(card) {
+    var active = card.classList.contains("is-active");
+    bookCards.forEach(function (item) {
+      item.classList.remove("is-active");
+    });
+    if (!active) card.classList.add("is-active");
+  }
+
+  if (bookCards.length) {
+    bookCards.forEach(function (card) {
+      card.addEventListener("click", function () {
+        if (noHover) toggleBook(card);
+      });
+
+      card.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        toggleBook(card);
+      });
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!noHover) return;
+      if (event.target.closest(".xg-book")) return;
+      bookCards.forEach(function (item) {
+        item.classList.remove("is-active");
+      });
+    });
+  }
+
   /* ========== 内容入场 ========== */
   var revealItems = Array.prototype.slice.call(
     document.querySelectorAll(".xg-reveal")
