@@ -2617,6 +2617,15 @@ body.xg-lightbox-open {
   grid-template-columns: repeat(8, minmax(0, 1fr));
 }
 
+.xg-books__grid--strip .xg-book__note {
+  padding: 26px 10px 10px;
+}
+
+.xg-books__grid--strip .xg-book__note p {
+  font-size: 11px;
+  line-height: 1.65;
+}
+
 .xg-books__grid--core {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(28px, 3.6vw, 48px);
@@ -2664,8 +2673,14 @@ body.xg-lightbox-open {
 
 .xg-book__note {
   position: absolute;
-  inset: auto 0 0 0;
+  top: 0;
+  right: 0;
+  left: 0;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  aspect-ratio: 177 / 250;
   padding: 34px 14px 14px;
   background: linear-gradient(
     to top,
@@ -2876,7 +2891,8 @@ body.xg-lightbox-open {
   .xg-book:hover .xg-book__note,
   .xg-book:focus-visible .xg-book__note {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1.05);
+    transform-origin: center bottom;
   }
 }
 
@@ -2886,13 +2902,34 @@ body.xg-lightbox-open {
 }
 
 /* 触屏：点按展开推荐语 */
-.xg-book.is-active .xg-book__note {
-  opacity: 1;
-  transform: translateY(0);
-}
+@media (hover: none) {
+  .xg-book__note {
+    position: static;
+    display: none;
+    aspect-ratio: auto;
+    margin-top: 2px;
+    padding: 10px 12px;
+    border-left: 2px solid var(--xg-gold);
+    background: rgba(6, 17, 26, 0.04);
+    opacity: 1;
+    transform: none;
+  }
 
-.xg-book.is-active .xg-book__cover {
-  box-shadow: 0 26px 46px -24px rgba(6, 17, 26, 0.7);
+  .xg-book__note p {
+    color: var(--xg-ink-soft);
+  }
+
+  .xg-book__note::before {
+    color: var(--xg-cinnabar);
+  }
+
+  .xg-book.is-active .xg-book__note {
+    display: block;
+  }
+
+  .xg-book.is-active .xg-book__cover {
+    box-shadow: 0 26px 46px -24px rgba(6, 17, 26, 0.7);
+  }
 }
 
 @media (max-width: 1080px) {
@@ -2977,5 +3014,17 @@ body.xg-lightbox-open {
   .xg-books__grid,
   .xg-books__grid--strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 导航多一项后，窄桌面下收紧间距 */
+@media (min-width: 721px) and (max-width: 980px) {
+  .xg-nav {
+    gap: 14px;
+  }
+
+  .xg-nav a {
+    font-size: 13px;
+    letter-spacing: 0.06em;
   }
 }

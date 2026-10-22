@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>循光践道 · 首页核心动效 Demo（光起）</title>
+  <meta name="theme-color" content="#06111a" />
+  <link rel="icon" type="image/png" sizes="128x128" href="assets/img/favicon.png" />
+  <link rel="stylesheet" href="assets/css/demo-dawn.css" />
+</head>
+<body class="xg-dd-body">
+  <a class="xg-skip" href="#main">跳到主要内容</a>
+
+  <header class="xg-dd-header">
+    <a class="xg-dd-brand" href="demo-dawn.html" aria-label="循光践道">
+      <img src="assets/img/logo-mark.png" alt="" width="40" height="40" />
+      <span>循光践道</span>
+    </a>
+    <div class="xg-dd-links">
+      <a class="xg-dd-back xg-dd-back--star" href="demo-star.html">看星河光影 Demo</a>
+      <a class="xg-dd-back" href="index.html">返回现有官网</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 全页只有一段：光升起、话一句句出现、最后见道 -->
+    <section class="xg-dd" data-phase="0">
+      <div class="xg-dd__stage">
+        <div class="xg-dd__sky" aria-hidden="true"></div>
+        <div class="xg-dd__sun" aria-hidden="true"></div>
+        <div class="xg-dd__beam" aria-hidden="true"></div>
+        <div class="xg-dd__grain" aria-hidden="true"></div>
+
+        <div class="xg-dd__content">
+          <p class="xg-dd__kicker">循光践道 · 首页核心动效 Demo</p>
+          <h1 class="xg-dd__title">循天光以明悟<br />践本心而成道</h1>
+
+          <div class="xg-dd__lines">
+            <p class="xg-dd__line xg-dd__line--1">
+              不是给你一张地图，<br />是陪你走完这段路。
+            </p>
+            <p class="xg-dd__line xg-dd__line--2">
+              知识会掉电，<br />环境会充电。
+            </p>
+            <p class="xg-dd__line xg-dd__line--final xg-dd__line--3">
+              愿循光，践道。
+            </p>
+          </div>
+        </div>
+
+        <!-- 光升到底之后才出现的出口：内容都在原来的页面里 -->
+        <div class="xg-dd__end">
+          <img class="xg-dd__end-logo" src="assets/img/logo-mark.png" alt="" width="56" height="56" />
+          <p class="xg-dd__end-name">循光践道</p>
+          <p class="xg-dd__end-note">光到这里。内容，都在原来的地方。</p>
+          <nav class="xg-dd__end-nav" aria-label="站点导航">
+            <a href="philosophy.html">理念</a>
+            <a href="programs.html">我们做什么</a>
+            <a href="stories.html">案例</a>
+            <a href="about.html">关于</a>
+            <a href="contact.html">联系我们</a>
+          </nav>
+          <a class="xg-dd__end-home" href="index.html">回到完整首页</a>
+        </div>
+
+        <p class="xg-dd__cue"><span>向下滚动，看光升起</span><i></i></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/demo-dawn.js"></script>
+</body>
+</html>

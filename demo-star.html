@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>循光践道 · 新官网设计 Demo（星河光影）</title>
+  <meta name="description" content="光影版与星河版合并的设计 Demo：一束星光随滚动落下，沿途星点亮起，最后落地见道。" />
+  <meta name="theme-color" content="#02060e" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" sizes="128x128" href="assets/img/favicon.png" />
+  <link rel="stylesheet" href="assets/css/demo-light.css" />
+  <link rel="stylesheet" href="assets/css/demo-star.css" />
+</head>
+<body class="xg-dl xg-ds">
+  <a class="xg-skip" href="#main">跳到主要内容</a>
+
+  <!-- 背景与氛围 -->
+  <div class="xg-dl-bg" aria-hidden="true"></div>
+  <div class="xg-ds-milky" aria-hidden="true"></div>
+  <div class="xg-dl-vignette" aria-hidden="true"></div>
+  <div class="xg-dl-dust" aria-hidden="true"></div>
+
+  <!-- 主角：一束星光 -->
+  <div class="xg-dl-beam" aria-hidden="true">
+    <span class="xg-dl-beam__trail"></span>
+    <span class="xg-dl-beam__tail"></span>
+    <span class="xg-dl-beam__halo"></span>
+    <span class="xg-dl-beam__spark xg-dl-beam__spark--a"></span>
+    <span class="xg-dl-beam__spark xg-dl-beam__spark--b"></span>
+    <span class="xg-dl-beam__spark xg-dl-beam__spark--c"></span>
+    <span class="xg-dl-beam__head"></span>
+    <span class="xg-dl-beam__core"></span>
+  </div>
+
+  <!-- 落地时的爆闪 -->
+  <div class="xg-dl-burst" aria-hidden="true">
+    <span class="xg-dl-burst__veil"></span>
+    <span class="xg-dl-burst__flash"></span>
+    <span class="xg-dl-burst__ring"></span>
+    <span class="xg-dl-burst__ring xg-dl-burst__ring--late"></span>
+  </div>
+
+  <!-- 阅读进度：光走到哪了 -->
+  <div class="xg-dl-progress" aria-hidden="true"><span></span></div>
+
+  <header class="xg-dl-header">
+    <a class="xg-dl-brand" href="demo-star.html" aria-label="循光践道">
+      <img src="assets/img/logo-mark.png" alt="" width="36" height="36" />
+      <span>循光践道</span>
+    </a>
+    <div class="xg-ds-head-links">
+      <a class="xg-dl-back xg-dl-back--light" href="demo-light.html">只看光影版</a>
+      <a class="xg-dl-back" href="index.html">返回现有官网</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 首屏 -->
+    <section class="xg-dl-hero" aria-label="循光践道">
+      <div class="xg-ds-dipper" aria-hidden="true">
+        <svg viewBox="0 0 420 300" role="presentation" focusable="false">
+          <g fill="none">
+            <path class="xg-ds-dipper__line" d="M78 74 L46 132 L108 178 L152 132 Z" />
+            <path class="xg-ds-dipper__line" d="M152 132 L212 102 L282 74 L368 96" />
+          </g>
+          <g>
+            <circle class="xg-ds-dipper__star xg-ds-dipper__star--big" cx="78" cy="74" r="4.2" />
+            <circle class="xg-ds-dipper__star" cx="46" cy="132" r="3.6" />
+            <circle class="xg-ds-dipper__star" cx="108" cy="178" r="3.4" />
+            <circle class="xg-ds-dipper__star" cx="152" cy="132" r="3" />
+            <circle class="xg-ds-dipper__star xg-ds-dipper__star--big" cx="212" cy="102" r="4.4" />
+            <circle class="xg-ds-dipper__star xg-ds-dipper__star--big" cx="282" cy="74" r="4" />
+            <circle class="xg-ds-dipper__star" cx="368" cy="96" r="3.8" />
+          </g>
+          <g>
+            <text class="xg-ds-dipper__label" x="78" y="58" text-anchor="middle">天枢</text>
+            <text class="xg-ds-dipper__label" x="46" y="154" text-anchor="middle">天璇</text>
+            <text class="xg-ds-dipper__label" x="108" y="200" text-anchor="middle">天玑</text>
+            <text class="xg-ds-dipper__label" x="152" y="154" text-anchor="middle">天权</text>
+            <text class="xg-ds-dipper__label" x="212" y="86" text-anchor="middle">玉衡</text>
+            <text class="xg-ds-dipper__label" x="282" y="58" text-anchor="middle">开阳</text>
+            <text class="xg-ds-dipper__label" x="368" y="80" text-anchor="middle">摇光</text>
+          </g>
+        </svg>
+      </div>
+
+      <p class="xg-dl-hero__kicker">新官网设计 Demo · 星河光影</p>
+      <h1>循天光以明悟<br />践本心而成道</h1>
+      <p class="xg-dl-hero__sub">
+        星河在上，一束星光从星间落下。<br />
+        你跟着它往下走，走到最后，见道。
+      </p>
+      <p class="xg-ds-hero-quote">维天有汉，监亦有光。<span>——《诗经 · 小雅 · 大东》</span></p>
+      <p class="xg-dl-hero__hint"><span>向下滚动，跟上这束星光</span><i></i></p>
+    </section>
+
+    <!-- 01 观星 -->
+    <section class="xg-dl-section xg-ds-watch" id="watch">
+      <div class="xg-dl-wrap">
+        <p class="xg-dl-kicker xg-dl-lit">01 · 观星</p>
+        <h2 class="xg-dl-h2 xg-dl-lit">古人抬头，看见的不只是星星</h2>
+        <p class="xg-dl-lead xg-dl-lit">
+          没有望远镜的年代，他们把银河写进诗，把流星写进史，<br />
+          把北斗写进治国的话里。今天我们抬头，还是同一片天。
+        </p>
+
+        <div class="xg-ds-grid">
+          <figure class="xg-ds-card xg-dl-lit">
+            <p class="xg-ds-card__quote">维天有汉，监亦有光。</p>
+            <figcaption>
+              <span class="xg-ds-card__source">《诗经 · 小雅 · 大东》</span>
+              <span class="xg-ds-card__note">银河横天，像一面会发光的镜子。</span>
+            </figcaption>
+          </figure>
+
+          <figure class="xg-ds-card xg-dl-lit">
+            <p class="xg-ds-card__quote">天地玄黄，宇宙洪荒。<br />日月盈昃，辰宿列张。</p>
+            <figcaption>
+              <span class="xg-ds-card__source">《千字文》</span>
+              <span class="xg-ds-card__note">日月有升落，星辰各就各位，古人的秩序从天上开始。</span>
+            </figcaption>
+          </figure>
+
+          <figure class="xg-ds-card xg-dl-lit">
+            <p class="xg-ds-card__quote">星汉灿烂，若出其里。</p>
+            <figcaption>
+              <span class="xg-ds-card__source">曹操《观沧海》</span>
+              <span class="xg-ds-card__note">站在海边看银河，仿佛它从胸中涌出来。</span>
+            </figcaption>
+          </figure>
+
+          <figure class="xg-ds-card xg-dl-lit">
+            <p class="xg-ds-card__quote">夜中，星陨如雨。</p>
+            <figcaption>
+              <span class="xg-ds-card__source">《春秋 · 庄公七年》</span>
+              <span class="xg-ds-card__note">两千七百年前的一场流星雨，被史官如实记下。</span>
+            </figcaption>
+          </figure>
+
+          <figure class="xg-ds-card xg-dl-lit">
+            <p class="xg-ds-card__quote">譬如北辰，居其所而众星共之。</p>
+            <figcaption>
+              <span class="xg-ds-card__source">《论语 · 为政》</span>
+              <span class="xg-ds-card__note">北辰不动，众星自绕；德性也是这样把人聚起来。</span>
+            </figcaption>
+          </figure>
+
+          <figure class="xg-ds-card xg-dl-lit">
+            <p class="xg-ds-card__quote">日月安属？列星安陈？</p>
+            <figcaption>
+              <span class="xg-ds-card__source">屈原《天问》</span>
+              <span class="xg-ds-card__note">《天问》一口气问了一百七十多个问题，星空是最大的那一个。</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <p class="xg-ds-foot">
+          引文据《诗经》《春秋》《论语》《千字文》及曹操《观沧海》、屈原《天问》原文。
+          《春秋》所记「星陨如雨」，常被视作世界上最早的天琴座流星雨记录。
+        </p>
+      </div>
+    </section>
+
+    <!-- 02 循光 -->
+    <section class="xg-dl-section">
+      <div class="xg-dl-wrap">
+        <p class="xg-dl-kicker xg-dl-lit">02 · 循光</p>
+        <h2 class="xg-dl-h2 xg-dl-lit">沿着光，走过五个地方</h2>
+        <p class="xg-dl-lead xg-dl-lit">
+          不是五门互不相干的课，<br />
+          而是同一个人的五个侧面。
+        </p>
+
+        <ul class="xg-dl-tracks">
+          <li class="xg-dl-track xg-dl-lit">
+            <span class="xg-dl-track__num">01</span>
+            <h3 class="xg-dl-track__name">财商</h3>
+            <p class="xg-dl-track__line">看懂钱，才有底气做选择。</p>
+          </li>
+          <li class="xg-dl-track xg-dl-lit">
+            <span class="xg-dl-track__num">02</span>
+            <h3 class="xg-dl-track__name">人性</h3>
+            <p class="xg-dl-track__line">看懂人，也看懂自己。</p>
+          </li>
+          <li class="xg-dl-track xg-dl-lit">
+            <span class="xg-dl-track__num">03</span>
+            <h3 class="xg-dl-track__name">家学</h3>
+            <p class="xg-dl-track__line">一个家，要有自己的根。</p>
+          </li>
+          <li class="xg-dl-track xg-dl-lit">
+            <span class="xg-dl-track__num">04</span>
+            <h3 class="xg-dl-track__name">情感</h3>
+            <p class="xg-dl-track__line">先把自己安顿好。</p>
+          </li>
+          <li class="xg-dl-track xg-dl-lit">
+            <span class="xg-dl-track__num">05</span>
+            <h3 class="xg-dl-track__name">商业</h3>
+            <p class="xg-dl-track__line">把事做成，也把人做正。</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 03 借光 -->
+    <section class="xg-dl-section">
+      <div class="xg-dl-wrap xg-dl-center">
+        <p class="xg-dl-kicker xg-dl-lit">03 · 借光</p>
+        <blockquote class="xg-dl-quote xg-dl-lit">知识会掉电，<br />环境会充电。</blockquote>
+        <p class="xg-dl-text xg-dl-lit">
+          所以我们不急着把课讲完。<br />
+          我们先一起把日子过明白一点。
+        </p>
+      </div>
+    </section>
+
+    <!-- 04 同行 -->
+    <section class="xg-dl-section">
+      <div class="xg-dl-wrap">
+        <p class="xg-dl-kicker xg-dl-lit">04 · 同行</p>
+        <h2 class="xg-dl-h2 xg-dl-lit">形式不同，落点相同</h2>
+        <p class="xg-dl-lead xg-dl-lit">
+          读书会、文化沙龙、系统课程、1v1 咨询。<br />
+          目的只有一个：让学到的东西，真的落回生活。
+        </p>
+
+        <div class="xg-dl-modes">
+          <div class="xg-dl-mode xg-dl-lit">
+            <span class="xg-dl-mode__num">01</span>
+            <h3 class="xg-dl-mode__title">读书会</h3>
+            <p class="xg-dl-mode__text">一起读，也一起把书里的道理放回自己的日子。</p>
+          </div>
+          <div class="xg-dl-mode xg-dl-lit">
+            <span class="xg-dl-mode__num">02</span>
+            <h3 class="xg-dl-mode__title">文化沙龙</h3>
+            <p class="xg-dl-mode__text">围绕一个真实处境，把话讲透，把问题看清。</p>
+          </div>
+          <div class="xg-dl-mode xg-dl-lit">
+            <span class="xg-dl-mode__num">03</span>
+            <h3 class="xg-dl-mode__title">系统课程</h3>
+            <p class="xg-dl-mode__text">从认知到动作，按阶段往前走，不跳步。</p>
+          </div>
+          <div class="xg-dl-mode xg-dl-lit">
+            <span class="xg-dl-mode__num">04</span>
+            <h3 class="xg-dl-mode__title">1v1 咨询</h3>
+            <p class="xg-dl-mode__text">一次只谈你当下最难的那件事。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 见道 -->
+    <section class="xg-dl-final" id="dao">
+      <p class="xg-dl-kicker xg-dl-lit">05 · 见道</p>
+      <h2 class="xg-dl-dao xg-dl-lit">道</h2>
+      <p class="xg-dl-final__line xg-dl-lit">星光落地的地方，是自己的本心。</p>
+      <p class="xg-dl-final__note">愿循光，践道。</p>
+      <div class="xg-dl-cta">
+        <a class="xg-dl-btn xg-dl-btn--solid" href="contact.html">联系我们</a>
+        <a class="xg-dl-btn" href="index.html">返回现有官网</a>
+      </div>
+      <p class="xg-dl-foot">© 2026 循光践道 · 新官网设计 Demo（未上线）</p>
+    </section>
+  </main>
+
+  <script src="assets/js/demo-light.js"></script>
+  <script src="assets/js/demo-star.js"></script>
+</body>
+</html>
